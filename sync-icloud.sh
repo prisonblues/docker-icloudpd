@@ -1782,8 +1782,23 @@ Notify(){
          --data "${webhook_payload}")"
       curl_exit_code="$?"
    elif [ "${notification_type}" = "Webhook" ]; then
+      # Initialize the specific_notification_url with the base notification_url
+      specific_notification_url="${notification_url}"
+
+      # Append /start for sync_start notifications
+      if [ "${notification_classification}" = "sync_start" ]; then
+         specific_notification_url="${notification_url}/start"
+
+      # Keep the original URL for sync_end notifications
+      elif [ "${notification_classification}" = "sync_end" ]; then
+         specific_notification_url="${notification_url}"
+
+      # Append /log for all other notifications
+      else
+         specific_notification_url="${notification_url}/log"
+      fi
       webhook_payload="$(echo -e "${notification_title} - ${notification_message}")"
-      notification_result="$(curl --silent --output /dev/null --write-out "%{http_code}" "${notification_url}" \
+      notification_result="$(curl --silent --output /dev/null --write-out "%{http_code}" "${specific_notification_url}" \
          --header 'content-type: application/json' \
          --data "{ \"${webhook_body}\" : \"${webhook_payload}\" }")"
       curl_exit_code="$?"
@@ -1921,6 +1936,7 @@ SyncUser(){
    while :; do
       synchronisation_start_time="$(date +'%s')"
       LogInfo "Synchronisation starting at $(date +%H:%M:%S -d "@${synchronisation_start_time}")"
+      Notify "sync_start" "Synchronization Start" "0" "The synchronization process for user ${user} is starting."
       source <(grep debug_logging "${config_file}")
       chown -R "${user_id}:${group_id}" "${config_dir}"
       CheckKeyringExists
@@ -1990,7 +2006,7 @@ SyncUser(){
                SetOwnerAndPermissionsDownloads
                LogInfo "Synchronisation complete for ${user}"
                if [ "${notification_type}" -a "${remote_sync_complete_notification}" = true ]; then
-                  Notify "remotesync" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
+                  Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
                   unset remote_sync_complete_notification
                fi
             fi
