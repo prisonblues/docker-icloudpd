@@ -2005,6 +2005,7 @@ SyncUser(){
                fi
                SetOwnerAndPermissionsDownloads
                LogInfo "Synchronisation complete for ${user}"
+               Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
                if [ "${notification_type}" -a "${remote_sync_complete_notification}" = true ]; then
                   Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
                   unset remote_sync_complete_notification
