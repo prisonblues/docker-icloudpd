@@ -925,6 +925,7 @@ CheckKeyringExists(){
       LogInfo "Keyring file exists, continuing"
    else
       LogError "Keyring does not exist"
+      Notify "fail" "Keyring does not exist" "0" "Keyring does not exist"
       LogError " - Please add your password to the system keyring by using the --Initialise script command line option"
       LogError " - Syntax: docker exec -it <container name> sync-icloud.sh --Initialise"
       LogError " - Example: docker exec -it icloudpd sync-icloud.sh --Initialise"
@@ -991,6 +992,7 @@ CheckMFACookie(){
       LogDebug "Multifactor authentication cookie exists."
    else
       LogError "Multifactor authentication cookie does not exist"
+      Notify "fail" "Multifactor authentication cookie does not exist" "0" "Multifactor authentication cookie does not exist"
       WaitForCookie DisplayMessage
       LogDebug "Multifactor authentication cookie file exists, checking validity..."
    fi
@@ -1010,6 +1012,7 @@ CheckMFACookie(){
       else
          rm -f "${config_dir}/${cookie_file}"
          LogError "Cookie expired at: ${mfa_expire_date}"
+         Notify "fail" "Cookie expired" "0" "Cookie expired at: ${mfa_expire_date}"
          LogError "Expired cookie file has been removed. Restarting container in 5 minutes"
          sleep 300
          exit 1
@@ -1047,6 +1050,7 @@ DisplayMFAExpiry(){
       if [ "${synchronisation_time:=$(date +%s -d '+15 minutes')}" -gt "${next_notification_time:=$(date +%s)}" ]; then
          if [ "${icloud_china}" = false ]; then
             Notify "${cookie_status}" "Multifactor Authentication Cookie Expiration" "2" "${error_message}"
+            Notify "fail" "Multifactor Authentication Cookie Expiration" "2" "${error_message}"
          else
             Notify "${cookie_status}" "Multifactor Authentication Cookie Expiration" "2" "${error_message}" "" "" "" "${days_remaining} 天后，${name} 的身份验证到期" "${error_message}"
          fi
@@ -1789,6 +1793,10 @@ Notify(){
       if [ "${notification_classification}" = "sync_start" ]; then
          specific_notification_url="${notification_url}/start"
 
+      # Append /fail for failure notifications
+      elif [ "${notification_classification}" = "fail" ]; then
+         specific_notification_url="${notification_url}/fail"
+
       # Keep the original URL for sync_end notifications
       elif [ "${notification_classification}" = "sync_end" ]; then
          specific_notification_url="${notification_url}"
@@ -2005,7 +2013,8 @@ SyncUser(){
                fi
                SetOwnerAndPermissionsDownloads
                LogInfo "Synchronisation complete for ${user}"
-               Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
+               new_files_count="$(grep -c "Downloaded /" /tmp/icloudpd/icloudpd_sync.log)"
+               Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}. Files downloaded: ${new_files_count}"
                if [ "${notification_type}" -a "${remote_sync_complete_notification}" = true ]; then
                   Notify "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}"
                   unset remote_sync_complete_notification
