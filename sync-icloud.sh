@@ -1803,6 +1803,10 @@ Notify(){
 
       # Append /log for all other notifications
       else
+         LogDebug "Appending /log to the notification URL"
+         LogDebug "Notification URL: ${notification_url}"
+         LogDebug "Notification classification: ${notification_classification}"
+         LogDebug "Notification event: ${notification_event}"
          specific_notification_url="${notification_url}/log"
       fi
       webhook_payload="$(echo -e "${notification_title} - ${notification_message}")"
