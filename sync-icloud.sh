@@ -24,6 +24,8 @@ initialise_config_file(){
       if [ "$(grep -c "file_permissions=" "${config_file}")" -eq 0 ]; then echo file_permissions="${file_permissions:=640}"; fi
       if [ "$(grep -c "folder_structure=" "${config_file}")" -eq 0 ]; then echo folder_structure="${folder_structure:={:%Y/%m/%d\}}"; fi
       if [ "$(grep -c "gotify_app_token=" "${config_file}")" -eq 0 ]; then echo gotify_app_token="${gotify_app_token}"; fi
+      if [ "$(grep -c "gotify_https=" "${config_file}")" -eq 0 ]; then echo gotify_https="${gotify_https}"; fi
+      if [ "$(grep -c "gotify_server_url=" "${config_file}")" -eq 0 ]; then echo gotify_server_url="${gotify_server_url}"; fi
       if [ "$(grep -c "group=" "${config_file}")" -eq 0 ]; then echo group="${group:=group}"; fi
       if [ "$(grep -c "group_id=" "${config_file}")" -eq 0 ]; then echo group_id="${group_id:=1000}"; fi
       if [ "$(grep -c "icloud_china=" "${config_file}")" -eq 0 ]; then echo icloud_china="${icloud_china}"; fi
@@ -109,6 +111,8 @@ initialise_config_file(){
       sed -i "s@^folder_structure=.*@folder_structure=${sanitised_folder_structure}@" "${config_file}"
    fi
    if [ "${gotify_app_token}" ]; then sed -i "s%^gotify_app_token=.*%gotify_app_token=${gotify_app_token}%" "${config_file}"; fi
+   if [ "${gotify_https}" ]; then sed -i "s%^gotify_https=.*%gotify_https=${gotify_https}%" "${config_file}"; fi
+   if [ "${gotify_server_url}" ]; then sed -i "s%^gotify_server_url=.*%gotify_server_url=${gotify_server_url}%" "${config_file}"; fi
    if [ "${group}" ]; then sed -i "s%^group=.*%group=${group}%" "${config_file}"; fi
    if [ "${group_id}" ]; then sed -i "s%^group_id=.*%group_id=${group_id}%" "${config_file}"; fi
    if [ "${icloud_china}" ]; then sed -i "s%^icloud_china=.*%icloud_china=${icloud_china}%" "${config_file}"; fi
@@ -636,6 +640,11 @@ ConfigureNotifications(){
             LogInfo "${notification_type} notification URL: ${notification_url}"
          fi
       elif [ "${notification_type}" = "Gotify" -a "${gotify_app_token}" -a "${gotify_server_url}" ]; then
+      if [ "${gotify_https}" = true ]; then
+            gotify_scheme="https"
+         else
+            gotify_scheme="http"
+         fi
          LogInfo "${notification_type} notifications enabled"
          CleanNotificationTitle
          if [ "${debug_logging}" = true ]; then
@@ -643,9 +652,9 @@ ConfigureNotifications(){
             LogDebug "${notification_type} server URL: (hidden)"
          else
             LogInfo "${notification_type} token: ${gotify_app_token}"
-            LogInfo "${notification_type} server URL: ${gotify_server_url}"
+            LogInfo "${notification_type} server URL: ${gotify_scheme}://${gotify_server_url}"
          fi
-         notification_url="https://${gotify_server_url}/message?token=${gotify_app_token}"
+         notification_url="${gotify_scheme}://${gotify_server_url}/message?token=${gotify_app_token}"
       elif [ "${notification_type}" = "Bark" -a "${bark_device_key}" -a "${bark_server}" ]; then
          LogInfo "${notification_type} notifications enabled"
          CleanNotificationTitle
@@ -659,7 +668,7 @@ ConfigureNotifications(){
          notification_url="http://${bark_server}/push"
       else
          LogWarning "$(date '+%Y-%m-%d %H:%M:%S') WARINING ${notification_type} notifications enabled, but configured incorrectly - disabling notifications"
-         unset notification_type prowl_api_key pushover_user pushover_token telegram_token telegram_chat_id webhook_scheme webhook_server webhook_port webhook_id dingtalk_token discord_id discord_token iyuu_token wecom_id wecom_secret gotify_app_token gotify_server_url bark_device_key bark_server
+         unset notification_type prowl_api_key pushover_user pushover_token telegram_token telegram_chat_id webhook_scheme webhook_server webhook_port webhook_id dingtalk_token discord_id discord_token iyuu_token wecom_id wecom_secret gotify_app_token gotify_scheme gotify_server_url bark_device_key bark_server
       fi
 
       if [ "${startup_notification:=true}" = true ]; then
@@ -807,7 +816,7 @@ ConfigurePassword(){
             icloudpd_path="/opt/icloudpd_latest/bin"
          # fi
          # LogDebug "Switched to icloudpd: $(${icloudpd_path}/icloudpd --version | awk '{print $3}')"
-         run_as "${icloudpd_path}/icloud --username ${apple_id}"
+         run_as "${icloudpd_path}/icloud --username ${apple_id} --domain ${auth_domain}"
          # deactivate
       else
          LogError "Keyring file ${config_dir}/python_keyring/keyring_pass.cfg does not exist"
@@ -855,7 +864,7 @@ GenerateCookie(){
       icloudpd_path="/opt/icloudpd_latest/bin"
    # fi
    # LogDebug "Switched to icloudpd: $("${icloudpd_path}/icloudpd" --version | awk '{print $3}')"
-   run_as "${icloudpd_path}/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --directory /dev/null --only-print-filenames --recent 0"
+   run_as "${icloudpd_path}/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --directory /dev/null --only-print-filenames --recent 0 --domain ${auth_domain}"
    # deactivate
    if [ "${authentication_type}" = "MFA" ]; then
       if [ "$(grep -c "X-APPLE-WEBAUTH-HSA-TRUST" "${config_dir}/${cookie_file}")" -eq 1 ]; then
