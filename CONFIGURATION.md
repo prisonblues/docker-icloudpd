@@ -2,7 +2,7 @@
 Environment variables can, for the time being, be used to configure the Docker container. However, configuring containers by using variables is deprecated and will be removed in future versions.
 When the container is first started, it will write a default configuration file "/config/icloudpd.conf" and the variables will be loaded from there. I you find that some things are still being set, even though you have removed the variables from the container, it could be that they are still located in the configuration file.
 
-## CONFGURATION OPTIONS
+## CONFIGURATION OPTIONS
 **apple_id**: This is the Apple ID that will be used when downloading files. This option is mandatory
 
 **user**: This is name of the user account that you wish to create within the container. This can be anything you choose, but ideally you would set this to match the name of the user on the host system for which you want to download files for. This user will be set as the owner of all downloaded files. Default: 'user'. This option is also used as the trigger for remotly initiated sync. Simply send your user name as a message to the Telegram chat, icoudpd will see it, and start a manual sync.
@@ -182,9 +182,10 @@ When the container is first started, it will write a default configuration file 
 
 **gotify_server_url**: Mandatory if notification_type set to 'Gotify'. This is the server name of your Gotify server e.g. server.domain.tld
 
-**bark_device_key**: Mandatory if notification_type set to 'Bark'. This is the device key associated with your device
+**bark_device_key**: Mandatory if notification_type set to 'Bark'. This is the device key associated with your device.
 
-**bark_server**: Mandatory if notification_type set to 'Bark'. This is the name of your Bark server, including the port. Please note that inculding the port seems to be mandatory for Bark. e.g. https://server.domain.com:443: or http://127.16.0.1:80. Failure to include the http/https prefix with result in error code 400 and failure to include the port will result in a 000 error.
+**bark_server**: Mandatory if notification_type set to 'Bark'. This is the name of your Bark server. Please note that the port should not be included and currently the project only supports http.
+If you use the official Bark server, please fill the field with `api.day.app`.
 
 ## VOLUME CONFIGURATION
 
@@ -303,7 +304,34 @@ This will then place a multifactor authentication cookie into the /config folder
 
 After this, the container should start downloading your photos.
 
-Dockerfile has a health check which will change the status of the container to 'unhealthy' if the cookie is due to expire within a set number of days (notification_days) and also if the download fails. 
+Dockerfile has a health check which will change the status of the container to 'unhealthy' if the cookie is due to expire within a set number of days (notification_days) and also if the download fails.
+
+## MULTIFACTOR RE-AUTHENTICATION
+Every 30 days, the cookie will expire and need to be re-authenticated. This can be done by running the re-authentication script:
+
+```
+docker container exec -it reauth.sh
+```
+
+It will then launch the re-authentication process, presenting you with an MFA code on your iDevice and asking for this new code on the command line. e.g:
+
+```
+2024-03-27 22:21:33 DEBUG    Authenticating...
+2024-03-27 22:21:35 INFO     Two-step/two-factor authentication is required (2fa)
+Please enter two-factor authentication code: 123456
+2024-03-27 22:21:55 WARNING  Failed to parse response with JSON mimetype
+2024-03-27 22:21:57 INFO     Great, you're all set up. The script can now be run without user interaction until 2SA expires.
+You can set up email notifications for when the two-step authentication expires.
+(Use --help to view information about SMTP options.)
+2024-03-27 22:21:57 INFO     Authentication completed successfully
+```
+
+# TELEGRAM 2-WAY COMMUNICATIONS
+## Remote Synchronisation
+If you are using Telegram as your notification application, you can now send messages to the chat bot, which the container will read, and then take the appropriate action. If you simply message the chatbot with the user that you have configured in the **user** variable, it will pick that up and force a synchronisation. So if you're down the pub with your mates, take a bunch of pics that you really like, simply message `boredazfcuk` (or whatever you've configured your user variable to be) to the Telegram bot and it will force a synchronisation, downloading your new photos within the next few minutes.
+
+## Remote Re-authentication
+Apple have recently reduced the re-authentication tim from 90 days to 30 days. This means connecting to your container, re-initialising it and completing multi-factor authentication. If I am out of the house and my cookie expires, I would need to wait until I get home, faff about with the whole process I just described. Now, you can message your container in a similar manner to the remote syncronisation, but adding `auth` to the end of the message, so for example `boredazfcuk auth`. After you have done this, I find it is best to start typing another message starting `boredazfcuk ` (note the space) and then changing the keyboard to number input. The container should pick up this instruction within a minute and it will message you back asking for the MFA code. It will start the re-authentication process and your iDevice will display a popup to `allow` or `deny` the connection. Click `allow` and you will be presented with your multi-factor authentication code. Memorise this code and add it to the end of your message, like `boredazfcuk 123456` and hit send. The container will then use this code to re-initialise your cookie and start downloading your photos again. One word of caution though... Literally every company on the planet tells you never to share this code with anyone. I put this feature in because... well... I trust me. I don't believe in putting blind faith in other though. So neither should you. Feel free to read the source code, so you can make sure it's not doing anything nefarious, by checking it yourself. I understand that not everyone can code though, so if you don't trust it, that's totally OK, probably a good choice on your behalf. To be fair, I'm just a dude with an IT hobby. I couldn't care less about your iCloud account, your contacts, or the pictures of your cat/dog. I just hope this makes you life better in some tiny way.
 
 ## COMMAND LINE PARAMETERS
 

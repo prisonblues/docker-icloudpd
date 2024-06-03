@@ -1,198 +1,16 @@
 #!/bin/ash
 
 ##### Functions #####
-initialise_config_file(){
-   {
-      if [ "$(grep -c "albums_with_dates=" "${config_file}")" -eq 0 ]; then echo albums_with_dates="${albums_with_dates:=false}"; fi
-      if [ "$(grep -c "apple_id=" "${config_file}")" -eq 0 ]; then echo apple_id="${apple_id}"; fi
-      if [ "$(grep -c "authentication_type=" "${config_file}")" -eq 0 ]; then echo authentication_type="${authentication_type:=MFA}"; fi
-      if [ "$(grep -c "auth_china=" "${config_file}")" -eq 0 ]; then echo auth_china="${auth_china:=false}"; fi
-      if [ "$(grep -c "auto_delete=" "${config_file}")" -eq 0 ]; then echo auto_delete="${auto_delete:=false}"; fi
-      if [ "$(grep -c "bark_device_key=" "${config_file}")" -eq 0 ]; then echo bark_device_key="${bark_device_key}"; fi
-      if [ "$(grep -c "bark_server=" "${config_file}")" -eq 0 ]; then echo bark_server="${bark_server}"; fi
-      if [ "$(grep -c "convert_heic_to_jpeg=" "${config_file}")" -eq 0 ]; then echo convert_heic_to_jpeg="${convert_heic_to_jpeg:=false}"; fi
-      if [ "$(grep -c "debug_logging=" "${config_file}")" -eq 0 ]; then echo debug_logging="${debug_logging:=false}"; fi
-      if [ "$(grep -c "delete_accompanying=" "${config_file}")" -eq 0 ]; then echo delete_accompanying="${delete_accompanying:=false}"; fi
-      if [ "$(grep -c "delete_after_download=" "${config_file}")" -eq 0 ]; then echo delete_after_download="${delete_after_download:=false}"; fi
-      if [ "$(grep -c "delete_notifications=" "${config_file}")" -eq 0 ]; then echo delete_notifications="${delete_notifications:=true}"; fi
-      if [ "$(grep -c "dingtalk_token=" "${config_file}")" -eq 0 ]; then echo dingtalk_token="${dingtalk_token}"; fi
-      if [ "$(grep -c "directory_permissions=" "${config_file}")" -eq 0 ]; then echo directory_permissions="${directory_permissions:=750}"; fi
-      if [ "$(grep -c "discord_id=" "${config_file}")" -eq 0 ]; then echo discord_id="${discord_id}"; fi
-      if [ "$(grep -c "discord_token=" "${config_file}")" -eq 0 ]; then echo discord_token="${discord_token}"; fi
-      if [ "$(grep -c "download_notifications=" "${config_file}")" -eq 0 ]; then echo download_notifications="${download_notifications:=true}"; fi
-      if [ "$(grep -c "download_path=" "${config_file}")" -eq 0 ]; then echo download_path="${download_path}"; fi
-      if [ "$(grep -c "file_permissions=" "${config_file}")" -eq 0 ]; then echo file_permissions="${file_permissions:=640}"; fi
-      if [ "$(grep -c "folder_structure=" "${config_file}")" -eq 0 ]; then echo folder_structure="${folder_structure:={:%Y/%m/%d\}}"; fi
-      if [ "$(grep -c "gotify_app_token=" "${config_file}")" -eq 0 ]; then echo gotify_app_token="${gotify_app_token}"; fi
-      if [ "$(grep -c "gotify_https=" "${config_file}")" -eq 0 ]; then echo gotify_https="${gotify_https}"; fi
-      if [ "$(grep -c "gotify_server_url=" "${config_file}")" -eq 0 ]; then echo gotify_server_url="${gotify_server_url}"; fi
-      if [ "$(grep -c "group=" "${config_file}")" -eq 0 ]; then echo group="${group:=group}"; fi
-      if [ "$(grep -c "group_id=" "${config_file}")" -eq 0 ]; then echo group_id="${group_id:=1000}"; fi
-      if [ "$(grep -c "icloud_china=" "${config_file}")" -eq 0 ]; then echo icloud_china="${icloud_china}"; fi
-      if [ "$(grep -c "iyuu_token=" "${config_file}")" -eq 0 ]; then echo iyuu_token="${iyuu_token}"; fi
-      if [ "$(grep -c "jpeg_path=" "${config_file}")" -eq 0 ]; then echo jpeg_path="${jpeg_path}"; fi
-      if [ "$(grep -c "jpeg_quality=" "${config_file}")" -eq 0 ]; then echo jpeg_quality="${jpeg_quality:=90}"; fi
-      if [ "$(grep -c "libraries_with_dates=" "${config_file}")" -eq 0 ]; then echo libraries_with_dates="${libraries_with_dates:=false}"; fi
-      if [ "$(grep -c "nextcloud_delete=" "${config_file}")" -eq 0 ]; then echo nextcloud_delete="${nextcloud_delete:=false}"; fi
-      if [ "$(grep -c "nextcloud_upload=" "${config_file}")" -eq 0 ]; then echo nextcloud_upload="${nextcloud_upload:=false}"; fi
-      if [ "$(grep -c "nextcloud_url=" "${config_file}")" -eq 0 ]; then echo nextcloud_url="${nextcloud_url}"; fi
-      if [ "$(grep -c "nextcloud_username=" "${config_file}")" -eq 0 ]; then echo nextcloud_username="${nextcloud_username}"; fi
-      if [ "$(grep -c "nextcloud_password=" "${config_file}")" -eq 0 ]; then echo nextcloud_password="${nextcloud_password}"; fi
-      if [ "$(grep -c "notification_days=" "${config_file}")" -eq 0 ]; then echo notification_days="${notification_days:=7}"; fi
-      if [ "$(grep -c "notification_type=" "${config_file}")" -eq 0 ]; then echo notification_type="${notification_type}"; fi
-      if [ "$(grep -c "photo_album=" "${config_file}")" -eq 0 ]; then echo photo_album="${photo_album}"; fi
-      if [ "$(grep -c "photo_library=" "${config_file}")" -eq 0 ]; then echo photo_library="${photo_library}"; fi
-      if [ "$(grep -c "photo_size=" "${config_file}")" -eq 0 ]; then echo photo_size="${photo_size:=original}"; fi
-      if [ "$(grep -c "prowl_api_key=" "${config_file}")" -eq 0 ]; then echo prowl_api_key="${prowl_api_key}"; fi
-      if [ "$(grep -c "pushover_sound=" "${config_file}")" -eq 0 ]; then echo pushover_sound="${pushover_sound}"; fi
-      if [ "$(grep -c "pushover_token=" "${config_file}")" -eq 0 ]; then echo pushover_token="${pushover_token}"; fi
-      if [ "$(grep -c "pushover_user=" "${config_file}")" -eq 0 ]; then echo pushover_user="${pushover_user}"; fi
-      if [ "$(grep -c "recent_only=" "${config_file}")" -eq 0 ]; then echo recent_only="${recent_only}"; fi
-      if [ "$(grep -c "set_exif_datetime=" "${config_file}")" -eq 0 ]; then echo set_exif_datetime="${set_exif_datetime:=false}"; fi
-      if [ "$(grep -c "skip_album=" "${config_file}")" -eq 0 ]; then echo skip_album="${skip_album}"; fi
-      if [ "$(grep -c "skip_library=" "${config_file}")" -eq 0 ]; then echo skip_library="${skip_library}"; fi
-      if [ "$(grep -c "single_pass=" "${config_file}")" -eq 0 ]; then echo single_pass="${single_pass:=false}"; fi
-      if [ "$(grep -c "skip_check=" "${config_file}")" -eq 0 ]; then echo skip_check="${skip_check:=false}"; fi
-      if [ "$(grep -c "skip_download=" "${config_file}")" -eq 0 ]; then echo skip_download="${skip_download:=false}"; fi
-      if [ "$(grep -c "skip_live_photos=" "${config_file}")" -eq 0 ]; then echo skip_live_photos="${skip_live_photos:=false}"; fi
-      if [ "$(grep -c "skip_videos=" "${config_file}")" -eq 0 ]; then echo skip_videos="${skip_videos:=false}"; fi
-      if [ "$(grep -c "startup_notification=" "${config_file}")" -eq 0 ]; then echo startup_notification="${startup_notification:=true}"; fi
-      if [ "$(grep -c "synchronisation_delay=" "${config_file}")" -eq 0 ]; then echo synchronisation_delay="${synchronisation_delay:=0}"; fi
-      if [ "$(grep -c "synchronisation_interval=" "${config_file}")" -eq 0 ]; then echo synchronisation_interval="${synchronisation_interval:=86400}"; fi
-      if [ "$(grep -c "synology_ignore_path=" "${config_file}")" -eq 0 ]; then echo synology_ignore_path="${synology_ignore_path:=false}"; fi     
-      if [ "$(grep -c "telegram_chat_id=" "${config_file}")" -eq 0 ]; then echo telegram_chat_id="${telegram_chat_id}"; fi
-      if [ "$(grep -c "telegram_polling=" "${config_file}")" -eq 0 ]; then echo telegram_polling="${telegram_polling:=true}"; fi
-      if [ "$(grep -c "telegram_server=" "${config_file}")" -eq 0 ]; then echo telegram_server="${telegram_server}"; fi
-      if [ "$(grep -c "telegram_silent_file_notifications=" "${config_file}")" -eq 0 ]; then echo telegram_silent_file_notifications="${telegram_silent_file_notifications}"; fi
-      if [ "$(grep -c "telegram_token=" "${config_file}")" -eq 0 ]; then echo telegram_token="${telegram_token}"; fi
-      if [ "$(grep -c "trigger_nextlcoudcli_synchronisation=" "${config_file}")" -eq 0 ]; then echo trigger_nextlcoudcli_synchronisation="${trigger_nextlcoudcli_synchronisation}"; fi
-      if [ "$(grep -c "until_found=" "${config_file}")" -eq 0 ]; then echo until_found="${until_found}"; fi
-      if [ "$(grep -c "user=" "${config_file}")" -eq 0 ]; then echo user="${user:=user}"; fi
-      if [ "$(grep -c "user_id=" "${config_file}")" -eq 0 ]; then echo user_id="${user_id:=1000}"; fi
-      if [ "$(grep -c "webhook_https=" "${config_file}")" -eq 0 ]; then echo webhook_https="${webhook_https:=false}"; fi
-      if [ "$(grep -c "webhook_id=" "${config_file}")" -eq 0 ]; then echo webhook_id="${webhook_id}"; fi
-      if [ "$(grep -c "webhook_path=" "${config_file}")" -eq 0 ]; then echo webhook_path="${webhook_path:=/api/webhook/}"; fi
-      if [ "$(grep -c "webhook_port=" "${config_file}")" -eq 0 ]; then echo webhook_port="${webhook_port:=8123}"; fi
-      if [ "$(grep -c "webhook_server=" "${config_file}")" -eq 0 ]; then echo webhook_server="${webhook_server}"; fi
-      if [ "$(grep -c "wecom_id=" "${config_file}")" -eq 0 ]; then echo wecom_id="${wecom_id}"; fi
-      if [ "$(grep -c "wecom_proxy=" "${config_file}")" -eq 0 ]; then echo wecom_proxy="${wecom_proxy}"; fi
-      if [ "$(grep -c "wecom_secret=" "${config_file}")" -eq 0 ]; then echo wecom_secret="${wecom_secret}"; fi
-      if [ "$(grep -c "agentid=" "${config_file}")" -eq 0 ]; then echo agentid="${agentid}"; fi
-      if [ "$(grep -c "touser=" "${config_file}")" -eq 0 ]; then echo touser="${touser}"; fi
-      if [ "$(grep -c "content_source_url=" "${config_file}")" -eq 0 ]; then echo content_source_url="${content_source_url}"; fi
-      if [ "$(grep -c "name=" "${config_file}")" -eq 0 ]; then echo name="${name}"; fi
-      if [ "$(grep -c "media_id_startup=" "${config_file}")" -eq 0 ]; then echo media_id_startup="${media_id_startup}"; fi
-      if [ "$(grep -c "media_id_download=" "${config_file}")" -eq 0 ]; then echo media_id_download="${media_id_download}"; fi
-      if [ "$(grep -c "media_id_delete=" "${config_file}")" -eq 0 ]; then echo media_id_delete="${media_id_delete}"; fi
-      if [ "$(grep -c "media_id_expiration=" "${config_file}")" -eq 0 ]; then echo media_id_expiration="${media_id_expiration}"; fi
-      if [ "$(grep -c "media_id_warning=" "${config_file}")" -eq 0 ]; then echo media_id_warning="${media_id_warning}"; fi
-   } >> "${config_file}"
-   if [ "${albums_with_dates}" ]; then sed -i "s%^albums_with_dates=.*%albums_with_dates=${albums_with_dates}%" "${config_file}"; fi
-   if [ "${apple_id}" ]; then sed -i "s%^apple_id=.*%apple_id=${apple_id}%" "${config_file}"; fi
-   if [ "${authentication_type}" ]; then sed -i "s%^authentication_type=.*%authentication_type=${authentication_type}%" "${config_file}"; fi
-   if [ "${auth_china}" ]; then sed -i "s%^auth_china=.*%auth_china=${auth_china}%" "${config_file}"; fi
-   if [ "${auto_delete}" ]; then sed -i "s%^auto_delete=.*%auto_delete=${auto_delete}%" "${config_file}"; fi
-   if [ "${bark_device_key}" ]; then sed -i "s%^bark_device_key=.*%bark_device_key=${bark_device_key}%" "${config_file}"; fi
-   if [ "${bark_server}" ]; then sed -i "s%^bark_server=.*%bark_server=${bark_server}%" "${config_file}"; fi
-   if [ "${convert_heic_to_jpeg}" ]; then sed -i "s%^convert_heic_to_jpeg=.*%convert_heic_to_jpeg=${convert_heic_to_jpeg}%" "${config_file}"; fi
-   if [ "${debug_logging}" ]; then sed -i "s%^debug_logging=.*%debug_logging=${debug_logging}%" "${config_file}"; fi
-   if [ "${delete_accompanying}" ]; then sed -i "s%^delete_accompanying=.*%delete_accompanying=${delete_accompanying}%" "${config_file}"; fi
-   if [ "${delete_after_download}" ]; then sed -i "s%^delete_after_download=.*%delete_after_download=${delete_after_download}%" "${config_file}"; fi
-   if [ "${delete_notifications}" ]; then sed -i "s%^delete_notifications=.*%delete_notifications=${delete_notifications}%" "${config_file}"; fi
-   if [ "${dingtalk_token}" ]; then sed -i "s%^dingtalk_token=.*%dingtalk_token=${dingtalk_token}%" "${config_file}"; fi
-   if [ "${directory_permissions}" ]; then sed -i "s%^directory_permissions=.*%directory_permissions=${directory_permissions}%" "${config_file}"; fi
-   if [ "${discord_id}" ]; then sed -i "s%^discord_id=.*%discord_id=${discord_id}%" "${config_file}"; fi
-   if [ "${discord_token}" ]; then sed -i "s%^discord_token=.*%discord_token=${discord_token}%" "${config_file}"; fi
-   if [ "${download_notifications}" ]; then sed -i "s%^download_notifications=.*%download_notifications=${download_notifications}%" "${config_file}"; fi
-   if [ "${download_path}" ]; then sed -i "s%^download_path=.*%download_path=${download_path}%" "${config_file}"; fi
-   if [ "${file_permissions}" ]; then sed -i "s%^file_permissions=.*%file_permissions=${file_permissions}%" "${config_file}"; fi
-   if [ "${folder_structure}" ]; then
-      sanitised_folder_structure="${folder_structure//\//\\/}"
-      sed -i "s@^folder_structure=.*@folder_structure=${sanitised_folder_structure}@" "${config_file}"
-   fi
-   if [ "${gotify_app_token}" ]; then sed -i "s%^gotify_app_token=.*%gotify_app_token=${gotify_app_token}%" "${config_file}"; fi
-   if [ "${gotify_https}" ]; then sed -i "s%^gotify_https=.*%gotify_https=${gotify_https}%" "${config_file}"; fi
-   if [ "${gotify_server_url}" ]; then sed -i "s%^gotify_server_url=.*%gotify_server_url=${gotify_server_url}%" "${config_file}"; fi
-   if [ "${group}" ]; then sed -i "s%^group=.*%group=${group}%" "${config_file}"; fi
-   if [ "${group_id}" ]; then sed -i "s%^group_id=.*%group_id=${group_id}%" "${config_file}"; fi
-   if [ "${icloud_china}" ]; then sed -i "s%^icloud_china=.*%icloud_china=${icloud_china}%" "${config_file}"; fi
-   if [ "${iyuu_token}" ]; then sed -i "s%^iyuu_token=.*%iyuu_token=${iyuu_token}%" "${config_file}"; fi
-   if [ "${jpeg_path}" ]; then sed -i "s%^jpeg_path=.*%jpeg_path=${jpeg_path}%" "${config_file}"; fi
-   if [ "${jpeg_quality}" ]; then sed -i "s%^jpeg_quality=.*%jpeg_quality=${jpeg_quality}%" "${config_file}"; fi
-   if [ "${libraries_with_dates}" ]; then sed -i "s%^libraries_with_dates=.*%libraries_with_dates=${libraries_with_dates}%" "${config_file}"; fi
-   if [ "${nextcloud_delete}" ]; then sed -i "s%^nextcloud_delete=.*%nextcloud_delete=${nextcloud_delete}%" "${config_file}"; fi
-   if [ "${nextcloud_upload}" ]; then sed -i "s%^nextcloud_upload=.*%nextcloud_upload=${nextcloud_upload}%" "${config_file}"; fi
-   if [ "${nextcloud_url}" ]; then sed -i "s%^nextcloud_url=.*%nextcloud_url=${nextcloud_url}%" "${config_file}"; fi
-   if [ "${nextcloud_username}" ]; then sed -i "s%^nextcloud_username=.*%nextcloud_username=${nextcloud_username}%" "${config_file}"; fi
-   if [ "${nextcloud_password}" ]; then sed -i "s%^nextcloud_password=.*%nextcloud_password=${nextcloud_password}%" "${config_file}"; fi
-   if [ "${notification_days}" ]; then sed -i "s%^notification_days=.*%notification_days=${notification_days}%" "${config_file}"; fi
-   if [ "${notification_type}" ]; then sed -i "s%^notification_type=.*%notification_type=${notification_type}%" "${config_file}"; fi
-   if [ "${photo_album}" ]; then sed -i "s%^photo_album=.*%photo_album=\"${photo_album}\"%" "${config_file}"; fi
-   if [ "${photo_library}" ]; then sed -i "s%^photo_library=.*%photo_library=${photo_library}%" "${config_file}"; fi
-   if [ "${photo_size}" ]; then sed -i "s%^photo_size=.*%photo_size=${photo_size}%" "${config_file}"; fi
-   if [ "${prowl_api_key}" ]; then sed -i "s%^prowl_api_key=.*%prowl_api_key=${prowl_api_key}%" "${config_file}"; fi
-   if [ "${pushover_sound}" ]; then sed -i "s%^pushover_sound=.*%pushover_sound=${pushover_sound}%" "${config_file}"; fi
-   if [ "${pushover_token}" ]; then sed -i "s%^pushover_token=.*%pushover_token=${pushover_token}%" "${config_file}"; fi
-   if [ "${pushover_user}" ]; then sed -i "s%^pushover_user=.*%pushover_user=${pushover_user}%" "${config_file}"; fi
-   if [ "${recent_only}" ]; then sed -i "s%^recent_only=.*%recent_only=${recent_only}%" "${config_file}"; fi
-   if [ "${set_exif_datetime}" ]; then sed -i "s%^set_exif_datetime=.*%set_exif_datetime=${set_exif_datetime}%" "${config_file}"; fi
-   if [ "${single_pass}" ]; then sed -i "s%^single_pass=.*%single_pass=${single_pass}%" "${config_file}"; fi
-   if [ "${skip_album}" ]; then sed -i "s%^skip_album=.*%skip_album=\"${skip_album}\"%" "${config_file}"; fi
-   if [ "${skip_library}" ]; then sed -i "s%^skip_library=.*%skip_library=\"${skip_library}\"%" "${config_file}"; fi
-   if [ "${skip_check}" ]; then sed -i "s%^skip_check=.*%skip_check=${skip_check}%" "${config_file}"; fi
-   if [ "${skip_download}" ]; then sed -i "s%^skip_download=.*%skip_download=${skip_download}%" "${config_file}"; fi
-   if [ "${skip_live_photos}" ]; then sed -i "s%^skip_live_photos=.*%skip_live_photos=${skip_live_photos}%" "${config_file}"; fi
-   if [ "${skip_videos}" ]; then sed -i "s%^skip_videos=.*%skip_videos=${skip_videos}%" "${config_file}"; fi
-   if [ "${startup_notification}" ]; then sed -i "s%^startup_notification=.*%startup_notification=${startup_notification}%" "${config_file}"; fi
-   if [ "${synchronisation_delay}" ]; then sed -i "s%^synchronisation_delay=.*%synchronisation_delay=${synchronisation_delay}%" "${config_file}"; fi
-   if [ "${synchronisation_interval}" ]; then sed -i "s%^synchronisation_interval=.*%synchronisation_interval=${synchronisation_interval}%" "${config_file}"; fi
-   if [ "${synology_ignore_path}" ]; then sed -i "s%^synology_ignore_path=.*%synology_ignore_path=${synology_ignore_path}%" "${config_file}"; fi
-   if [ "${telegram_chat_id}" ]; then sed -i "s%^telegram_chat_id=.*%telegram_chat_id=${telegram_chat_id}%" "${config_file}"; fi
-   if [ "${telegram_polling}" ]; then sed -i "s%^telegram_polling=.*%telegram_polling=${telegram_polling}%" "${config_file}"; fi
-   if [ "${telegram_server}" ]; then sed -i "s%^telegram_server=.*%telegram_server=${telegram_server}%" "${config_file}"; fi
-   if [ "${telegram_silent_file_notifications}" ]; then sed -i "s%^telegram_silent_file_notifications=.*%telegram_silent_file_notifications=${telegram_silent_file_notifications}%" "${config_file}"; fi
-   if [ "${telegram_token}" ]; then sed -i "s%^telegram_token=.*%telegram_token=${telegram_token}%" "${config_file}"; fi
-   if [ "${trigger_nextlcoudcli_synchronisation}" ]; then sed -i "s%^trigger_nextlcoudcli_synchronisation=.*%trigger_nextlcoudcli_synchronisation=${trigger_nextlcoudcli_synchronisation}%" "${config_file}"; fi
-   if [ "${until_found}" ]; then sed -i "s%^until_found=.*%until_found=${until_found}%" "${config_file}"; fi
-   if [ "${user}" ]; then sed -i "s%^user=.*%user=${user}%" "${config_file}"; fi
-   if [ "${user_id}" ]; then sed -i "s%^user_id=.*%user_id=${user_id}%" "${config_file}"; fi
-   if [ "${webhook_https}" ]; then sed -i "s%^webhook_https=.*%webhook_https=${webhook_https}%" "${config_file}"; fi
-   if [ "${webhook_id}" ]; then sed -i "s%^webhook_id=.*%webhook_id=${webhook_id}%" "${config_file}"; fi
-   if [ "${webhook_path}" ]; then sed -i "s%^webhook_path=.*%webhook_path=${webhook_path}%" "${config_file}"; fi
-   if [ "${webhook_port}" ]; then sed -i "s%^webhook_port=.*%webhook_port=${webhook_port}%" "${config_file}"; fi
-   if [ "${webhook_server}" ]; then sed -i "s%^webhook_server=.*%webhook_server=${webhook_server}%" "${config_file}"; fi
-   if [ "${wecom_id}" ]; then sed -i "s%^wecom_id=.*%wecom_id=${wecom_id}%" "${config_file}"; fi
-   if [ "${wecom_proxy}" ]; then sed -i "s%^wecom_proxy=.*%wecom_proxy=${wecom_proxy}%" "${config_file}"; fi
-   if [ "${wecom_secret}" ]; then sed -i "s%^wecom_secret=.*%wecom_secret=${wecom_secret}%" "${config_file}"; fi
-   if [ "${agentid}" ]; then sed -i "s%^agentid=.*%agentid=${agentid}%" "${config_file}"; fi
-   if [ "${touser}" ]; then sed -i "s%^touser=.*%touser=${touser}%" "${config_file}"; fi
-   if [ "${content_source_url}" ]; then sed -i "s%^content_source_url=.*%content_source_url=${content_source_url}%" "${config_file}"; fi
-   if [ "${name}" ]; then sed -i "s%^name=.*%name=${name}%" "${config_file}"; fi
-   if [ "${media_id_startup}" ]; then sed -i "s%^media_id_startup=.*%media_id_startup=${media_id_startup}%" "${config_file}"; fi
-   if [ "${media_id_download}" ]; then sed -i "s%^media_id_download=.*%media_id_download=${media_id_download}%" "${config_file}"; fi
-   if [ "${media_id_delete}" ]; then sed -i "s%^media_id_delete=.*%media_id_delete=${media_id_delete}%" "${config_file}"; fi
-   if [ "${media_id_expiration}" ]; then sed -i "s%^media_id_expiration=.*%media_id_expiration=${media_id_expiration}%" "${config_file}"; fi
-   if [ "${media_id_warning}" ]; then sed -i "s%^media_id_warning=.*%media_id_warning=${media_id_warning}%" "${config_file}"; fi
-   mv "${config_file}" "${config_file}.tmp"
-   sort "${config_file}.tmp" --output="${config_file}"
-   chmod --reference="${config_file}.tmp" "${config_file}"
-   rm "${config_file}.tmp"
-   sed -i 's/=True/=true/g' "${config_file}"
-   sed -i 's/=False/=false/g' "${config_file}"
-   sed -i 's/authentication_type=2FA/authentication_type=MFA/' "${config_file}"
-   sed -i '/delete_notification=/d' "${config_file}"
-}
-
 Initialise(){
 
    echo
-   LogInfo "***** boredazfcuk/icloudpd container for icloud_photo_downloader v1.0.$(cat /build_version.txt) started *****"
+   LogInfo "***** boredazfcuk/icloudpd container v1.0.$(cat /opt/build_version.txt) started *****"
    LogInfo "***** For support, please go here: https://github.com/boredazfcuk/docker-icloudpd *****"
    LogInfo "$(cat /etc/*-release | grep "^NAME" | sed 's/NAME=//g' | sed 's/"//g') $(cat /etc/*-release | grep "VERSION_ID" | sed 's/VERSION_ID=//g' | sed 's/"//g')"
    LogInfo "Python version: $(python3 --version | awk '{print $2}')"
+   LogInfo "icloud-photos-downloader version: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
 
    config_file="${config_dir}/icloudpd.conf"
-   initialise_config_file
    LogInfo "Loading configuration from: ${config_file}"
    source "${config_file}"
    save_ifs="${IFS}"
@@ -200,7 +18,7 @@ Initialise(){
    login_counter=0
    apple_id="$(echo -n ${apple_id} | tr '[:upper:]' '[:lower:]')"
    cookie_file="$(echo -n "${apple_id//[^a-z0-9_]/}")"
-   
+
    local icloud_dot_com dns_counter
    if [ "${icloud_china:=false}" = true ]; then
       icloud_domain="icloud.com.cn"
@@ -241,37 +59,41 @@ Initialise(){
    LogDebug "Running user id: $(id --user)"
    LogDebug "Running group id: $(id --group)"
    if [ "${user}" = "root" ]; then
-      LogWarning "The local user for synchronisation cannot be root"
+      LogWarning "The local user for synchronisation cannot be root, resetting to 'user'"
       unset user
+      sleep 120
    fi
    if [ "${user_id}" -eq 0 ]; then
-      LogWarning "The local user id for synchronisation cannot be 0"
+      LogWarning "The local user id for synchronisation cannot be 0, resetting to '1000'"
       unset user_id
+      sleep 120
    fi
    LogDebug "Local user: ${user:=user}:${user_id:=1000}"
    if [ "${group}" = "root" ]; then
-      LogWarning "The local group for synchronisation cannot be root"
+      LogWarning "The local group for synchronisation cannot be root, resetting to 'group'"
       unset group
+      sleep 120
    fi
    if [ "${group_id}" -eq 0 ]; then
-      LogWarning "The local group id for synchronisation cannot be 0"
+      LogWarning "The local group id for synchronisation cannot be 0, resetting to '1000'"
       unset group_id force_gid
+      sleep 120
    fi
    LogDebug "Local group: ${group:=group}:${group_id:=1000}"
    LogDebug "Force GID: ${force_gid:=false}"
    LogDebug "LAN IP Address: ${lan_ip}"
    LogDebug "Default gateway: $(ip route | grep default | awk '{print $3}')"
    LogDebug "DNS server: $(cat /etc/resolv.conf | grep nameserver | awk '{print $2}')"
-   icloud_dot_com="$(nslookup -vc -type=a ${icloud_domain} | grep -v "127.0.0.1" | grep Address | tail -1 | awk '{print $2}')"
+   icloud_dot_com="$(nslookup -type=a ${icloud_domain} | grep -v "127.0.0.1" | grep Address | tail -1 | awk '{print $2}')"
    while [ -z "${icloud_dot_com}" ]; do
       if [ "${dns_counter:=0}" = 0 ]; then
          LogWarning "Cannot find ${icloud_domain} IP address - retrying"
       fi
       sleep 10
-      icloud_dot_com="$(nslookup -vc -type=a ${icloud_domain} | grep -v "127.0.0.1" | grep Address | tail -1 | awk '{print $2}')"
+      icloud_dot_com="$(nslookup -type=a ${icloud_domain} | grep -v "127.0.0.1" | grep Address | tail -1 | awk '{print $2}')"
       dns_counter=$((dns_counter+1))
       if [ "${dns_counter}" = 12 ]; then
-         LogError "Cannot find ${icloud_domain} IP address. Please check your DNS/Firewall settings. DNS server must be available using TCP port 53 - exiting"
+         LogError "Cannot find ${icloud_domain} IP address. Please check your DNS/Firewall settings - exiting"
          sleep 120
          exit 1
       fi
@@ -420,8 +242,8 @@ Initialise(){
       ignore_path=""
    fi
 
-   source /opt/icloudpd_latest/bin/activate
-   LogDebug "Activated Python virtual environment for icloudpd: $(/opt/icloudpd_latest/bin/icloudpd --version | awk '{print $3}')"
+   source /opt/icloudpd/bin/activate
+   LogDebug "Activated Python virtual environment for icloudpd: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
 }
 
 LogInfo(){
@@ -748,10 +570,10 @@ ListLibraries(){
       CheckWebCookie
    fi
    IFS=$'\n'
-   # source /opt/icloudpd_latest/bin/activate
-   # LogDebug "Switched to icloudpd: $(/opt/icloudpd_latest/bin/icloudpd --version | awk '{print $3}')"
+   # source /opt/icloudpd/bin/activate
+   # LogDebug "Switched to icloudpd: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
    if [ "${skip_download}" = false ]; then
-      shared_libraries="$(run_as "/opt/icloudpd_latest/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-libraries | sed '1d'")"
+      shared_libraries="$(run_as "/opt/icloudpd/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-libraries | sed '1d'")"
    fi
    # deactivate
    LogInfo "Shared libraries:"
@@ -769,10 +591,10 @@ ListAlbums(){
       CheckWebCookie
    fi
    IFS=$'\n'
-   # source /opt/icloudpd_latest/bin/activate
-   # LogDebug "Switched to icloudpd: $(/opt/icloudpd_latest/bin/icloudpd --version | awk '{print $3}')"
+   # source /opt/icloudpd/bin/activate
+   # LogDebug "Switched to icloudpd: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
    if [ "${skip_download}" = false ]; then
-      photo_albums="$(run_as "/opt/icloudpd_latest/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-albums | sed '1d' | sed '/^Albums:$/d'")"
+      photo_albums="$(run_as "/opt/icloudpd/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-albums | sed '1d' | sed '/^Albums:$/d'")"
    fi
    # deactivate
    LogInfo "Photo albums:"
@@ -812,8 +634,8 @@ ConfigurePassword(){
             # source /opt/icloudpd_v1.7.2_china/bin/activate
             # icloudpd_path="/opt/icloudpd_v1.7.2_china/bin"
          # else
-            # source /opt/icloudpd_latest/bin/activate
-            icloudpd_path="/opt/icloudpd_latest/bin"
+            # source /opt/icloudpd/bin/activate
+            icloudpd_path="/opt/icloudpd/bin"
          # fi
          # LogDebug "Switched to icloudpd: $(${icloudpd_path}/icloudpd --version | awk '{print $3}')"
          run_as "${icloudpd_path}/icloud --username ${apple_id} --domain ${auth_domain}"
@@ -860,8 +682,8 @@ GenerateCookie(){
       # source /opt/icloudpd_v1.7.2_china/bin/activate
       # icloudpd_path="/opt/icloudpd_v1.7.2_china/bin"
    # else
-      # source /opt/icloudpd_latest/bin/activate
-      icloudpd_path="/opt/icloudpd_latest/bin"
+      # source /opt/icloudpd/bin/activate
+      icloudpd_path="/opt/icloudpd/bin"
    # fi
    # LogDebug "Switched to icloudpd: $("${icloudpd_path}/icloudpd" --version | awk '{print $3}')"
    run_as "${icloudpd_path}/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --directory /dev/null --only-print-filenames --recent 0 --domain ${auth_domain}"
@@ -906,7 +728,7 @@ SetOwnerAndPermissionsConfig(){
    chown -R "${user_id}:${group_id}" "/tmp/icloudpd"
    LogDebug "Set owner and group on config directory"
    chown -R "${user_id}:${group_id}" "${config_dir}"
-   
+
    if [ -d "${config_dir}/python_keyring/" ]; then
       if [ "$(run_as "test -w ${config_dir}/python_keyring/; echo $?")" -eq 0 ]; then
          LogInfo "Directory is writable: ${config_dir}/python_keyring/"
@@ -927,6 +749,19 @@ SetOwnerAndPermissionsDownloads(){
    find "${download_path}" -type d ! -perm "${directory_permissions}" ! -path "${ignore_path}" -exec chmod "${directory_permissions}" '{}' +
    LogDebug "Set ${file_permissions} permissions on iCloud files, if required"
    find "${download_path}" -type f ! -perm "${file_permissions}" ! -path "${ignore_path}" -exec chmod "${file_permissions}" '{}' +
+}
+
+check_permissions(){
+   if [ "$(run_as ${user} "if ! test -w \"${download_path}\"; then echo false; fi")" = false ]; then
+      LogWarning "User ${user}:${user_id} cannot write to directory: ${download_path} - Attempting to set permissions"
+      SetOwnerAndPermissionsDownloads
+      if [ "$(run_as ${user} "if ! test -w \"${download_path}\"; then echo false; fi")" = false ]; then
+         LogError "User ${user}:${user_id} still cannot write to directory: ${download_path}"
+         LogError " - Fixing permissions failed - Cannot continue, exiting"
+         sleep 120
+         exit 1
+      fi
+   fi
 }
 
 CheckKeyringExists(){
@@ -1009,9 +844,9 @@ CheckMFACookie(){
       LogDebug "Multifactor authentication cookie exists, but not autenticated. Waiting for authentication to complete..."
       WaitForAuthentication
       LogDebug "Multifactor authentication authentication complete, checking expiry date..."
-   fi 
-   if [ "$(grep -c "X-APPLE-WEBAUTH-HSA-TRUST" "${config_dir}/${cookie_file}")" -eq 1 ]; then
-      mfa_expire_date="$(grep "X-APPLE-WEBAUTH-HSA-TRUST" "${config_dir}/${cookie_file}" | sed -e 's#.*expires="\(.*\)Z"; HttpOnly.*#\1#')"
+   fi
+   if [ "$(grep -c "X-APPLE-WEBAUTH-PCS-Photos" "${config_dir}/${cookie_file}")" -eq 1 ]; then
+      mfa_expire_date="$(grep "X-APPLE-WEBAUTH-PCS-Photos" "${config_dir}/${cookie_file}" | sed -e 's#.*expires="\(.*\)Z"; HttpOnly.*#\1#')"
       mfa_expire_seconds="$(date -d "${mfa_expire_date}" '+%s')"
       days_remaining="$(($((mfa_expire_seconds - $(date '+%s'))) / 86400))"
       echo "${days_remaining}" > "${config_dir}/DAYS_REMAINING"
@@ -1075,10 +910,11 @@ CheckFiles(){
    fi
    LogInfo "Check for new files using password stored in keyring file"
    LogInfo "Generating list of files in iCloud. This may take a long time if you have a large photo collection. Please be patient. Nothing is being downloaded at this time"
+   LogDebug "Launch command: /opt/icloudpd/bin/icloudpd --directory ${download_path} --cookie-directory ${config_dir} --username ${apple_id} --domain ${auth_domain} --folder-structure ${folder_structure} --only-print-filenames"
    >/tmp/icloudpd/icloudpd_check_error
-   # source /opt/icloudpd_latest/bin/activate
-   # LogDebug "Switched to icloudpd: $(/opt/icloudpd_latest/bin/icloudpd --version | awk '{print $3}')"
-   run_as "(/opt/icloudpd_latest/bin/icloudpd --directory ${download_path} --cookie-directory ${config_dir} --username ${apple_id} --domain ${auth_domain} --folder-structure ${folder_structure} --only-print-filenames 2>/tmp/icloudpd/icloudpd_check_error; echo $? >/tmp/icloudpd/icloudpd_check_exit_code) | tee /tmp/icloudpd/icloudpd_check.log"
+   # source /opt/icloudpd/bin/activate
+   # LogDebug "Switched to icloudpd: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
+   run_as "(/opt/icloudpd/bin/icloudpd --directory ${download_path} --cookie-directory ${config_dir} --username ${apple_id} --domain ${auth_domain} --folder-structure ${folder_structure} --only-print-filenames 2>/tmp/icloudpd/icloudpd_check_error; echo $? >/tmp/icloudpd/icloudpd_check_exit_code) | tee /tmp/icloudpd/icloudpd_check.log"
    check_exit_code="$(cat /tmp/icloudpd/icloudpd_check_exit_code)"
    # deactivate
    if [ "${check_exit_code}" -ne 0 ] || [ -s /tmp/icloudpd/icloudpd_check_error ]; then
@@ -1086,7 +922,12 @@ CheckFiles(){
       LogError " - Can you log into ${icloud_domain} without receiving pop-up notifications?"
       LogError "Error debugging info:"
       LogError "$(cat /tmp/icloudpd/icloudpd_check_error)"
-      LogError "***** Please report problems here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+      if [ "${debug_logging}" != true ]; then
+         LogError "Please set debug_logging=true in your icloudpd.conf file then reproduce the error."
+         LogError "***** Once you have captured this log file, please post it along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+      else
+         LogError "***** Please post the above debug log, along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+      fi
       if [ "${icloud_china}" = false ]; then
          Notify "failure" "iCloudPD container failure" "0" "iCloudPD failed check for new files for Apple ID: ${apple_id}"
       else
@@ -1149,9 +990,9 @@ DeletedFilesNotification(){
 }
 
 DownloadAlbums(){
-   local all_albums albums_to_download
+   local all_albums albums_to_download log_level
    if [ "${photo_album}" = "all albums" ]; then
-      all_albums="$(run_as "/opt/icloudpd_latest/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-albums | sed '1d' | sed '/^Albums:$/d'")"
+      all_albums="$(run_as "/opt/icloudpd/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-albums | sed '1d' | sed '/^Albums:$/d'")"
       LogDebug "Buildling list of albums to download..."
       IFS=$'\n'
       for album in ${all_albums}; do
@@ -1178,14 +1019,19 @@ DownloadAlbums(){
    fi
    IFS=","
    LogDebug "Starting albums download..."
+   if [ "${debug_logging}" = true ]; then
+      log_level="debug"
+   else
+      log_level="info"
+   fi
    for album in ${albums_to_download}; do
       LogInfo "Downloading album: ${album}"
       if [ "${albums_with_dates}" = true ]; then
-         LogDebug "iCloudPD launch command: /opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure \"${album}/${folder_structure}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error"
-         run_as "(/opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure \"${album}/${folder_structure}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+         LogDebug "iCloudPD launch command: /opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure \"${album}/${folder_structure}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error"
+         run_as "(/opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure \"${album}/${folder_structure}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
       else
-         LogDebug "iCloudPD launch command: /opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure \"${album}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error"
-         run_as "(/opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure \"${album}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+         LogDebug "iCloudPD launch command: /opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure \"${album}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error"
+         run_as "(/opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure \"${album}\" --album \"${album}\" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
       fi
       if [ "$(cat /tmp/icloudpd/icloudpd_download_exit_code)" -ne 0 ]; then
          LogError "Failed downloading album: ${album}"
@@ -1198,10 +1044,10 @@ DownloadAlbums(){
 }
 
 DownloadLibraries(){
-   local all_libraries libraries_to_download
+   local all_libraries libraries_to_download log_level
    if [ "${photo_library}" = "all libraries" ]; then
       LogDebug "Fetching libraries list..."
-      all_libraries="$(run_as "/opt/icloudpd_latest/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-libraries | sed '1d'")"
+      all_libraries="$(run_as "/opt/icloudpd/bin/icloudpd --username ${apple_id} --cookie-directory ${config_dir} --domain ${auth_domain} --directory /dev/null --list-libraries | sed '1d'")"
       LogDebug "Building list of libraries to download..."
       IFS=$'\n'
       for library in ${all_libraries}; do
@@ -1229,12 +1075,17 @@ DownloadLibraries(){
    IFS=","
    for library in ${libraries_to_download}; do
       LogInfo "Downloading library: ${library}"
-      if [ "${libraries_with_dates}" = true ]; then
-         LogDebug "iCloudPD launch command: /opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure ${library}/${folder_structure} --library ${library} 2>/tmp/icloudpd/icloudpd_download_error"
-         run_as "(/opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure "${library}/${folder_structure}" --library "${library}" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+      if [ "${debug_logging}" = true ]; then
+         log_level="debug"
       else
-         LogDebug "iCloudPD launch command: /opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure ${library} --library ${library} 2>/tmp/icloudpd/icloudpd_download_error"
-         run_as "(/opt/icloudpd_latest/bin/icloudpd ${command_line} --folder-structure "${library}" --library "${library}" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+         log_level="info"
+      fi
+      if [ "${libraries_with_dates}" = true ]; then
+         LogDebug "iCloudPD launch command: /opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure ${library}/${folder_structure} --library ${library} 2>/tmp/icloudpd/icloudpd_download_error"
+         run_as "(/opt/icloudpd/bin/icloudpd ${command_line} --log-level "${log_level}" --folder-structure "${library}/${folder_structure}" --library "${library}" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+      else
+         LogDebug "iCloudPD launch command: /opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} --folder-structure ${library} --library ${library} 2>/tmp/icloudpd/icloudpd_download_error"
+         run_as "(/opt/icloudpd/bin/icloudpd ${command_line} --log-level "${log_level}" --folder-structure "${library}" --library "${library}" 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
       fi
       if [ "$(cat /tmp/icloudpd/icloudpd_download_exit_code)" -ne 0 ]; then
          LogError "Failed downloading library: ${library}"
@@ -1247,9 +1098,15 @@ DownloadLibraries(){
 }
 
 DownloadPhotos(){
-   LogDebug "iCloudPD launch command: /opt/icloudpd_latest/bin/icloudpd ${command_line} 2>/tmp/icloudpd/icloudpd_download_error"
+   local log_level
+   if [ "${debug_logging}" = true ]; then
+      log_level="debug"
+   else
+      log_level="info"
+   fi
+   LogDebug "iCloudPD launch command: /opt/icloudpd/bin/icloudpd --log-level ${log_level} ${command_line} 2>/tmp/icloudpd/icloudpd_download_error"
    if [ "${skip_download}" = false ]; then
-      run_as "(/opt/icloudpd_latest/bin/icloudpd ${command_line} 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
+      run_as "(/opt/icloudpd/bin/icloudpd ${command_line} --log-level ${log_level} 2>/tmp/icloudpd/icloudpd_download_error; echo $? >/tmp/icloudpd/icloudpd_download_exit_code) | tee /tmp/icloudpd/icloudpd_sync.log"
    else
       LogDebug "Skip download: ${skip_download} - skipping"
       echo 0 >/tmp/icloudpd/icloudpd_download_exit_code
@@ -1349,7 +1206,7 @@ NextcloudUpload(){
          if [ ! -f "${full_filename}" ]; then
             LogWarning "Media file ${full_filename} does not exist. It may exist in 'Recently Deleted' so has been removed post download"
          else
-            nextcloud_file_path="$(NextcloudEncodeURL ${nextcloud_username}/${nextcloud_target_dir}${nextcloud_file_path}/${base_filename})"
+            nextcloud_file_path="$(NextcloudEncodeURL "${nextcloud_username}/${nextcloud_target_dir}${nextcloud_file_path}/${base_filename}")"
             LogInfoN "Uploading ${full_filename} to ${nextcloud_url%/}/remote.php/dav/files/${nextcloud_file_path}"
             nextcloud_file_name="$(NextcloudEncodeURL "${full_filename}")"
             curl_response="$(curl --silent --show-error --location --user "${nextcloud_username}:${nextcloud_password}" --write-out "%{http_code}" --upload-file "${nextcloud_file_name}" "${nextcloud_url%/}/remote.php/dav/files/${nextcloud_file_path}")"
@@ -1360,7 +1217,7 @@ NextcloudUpload(){
                LogDebug "Encoded paths: ${nextcloud_file_name} to ${nextcloud_url%/}/remote.php/dav/files/${nextcloud_file_path}"
             fi
             if [ -f "${full_filename%.HEIC}.JPG" ]; then
-               nextcloud_file_path="$(NextcloudEncodeURL ${nextcloud_username}/${nextcloud_target_dir}${nextcloud_file_path}/${base_filename%.HEIC}.JPG)"
+               nextcloud_file_path="$(NextcloudEncodeURL "${nextcloud_username}/${nextcloud_target_dir}${nextcloud_file_path}/${base_filename%.HEIC}.JPG")"
                LogInfoN "Uploading ${full_filename%.HEIC}.JPG to ${nextcloud_url%/}/remote.php/dav/files/${nextcloud_file_path}"
                nextcloud_file_name="$(NextcloudEncodeURL "${full_filename%.HEIC}.JPG")"
                curl_response="$(curl --silent --show-error --location --user "${nextcloud_username}:${nextcloud_password}" --write-out "%{http_code}" --upload-file "${nextcloud_file_name}" "${nextcloud_url%/}/remote.php/dav/files/${nextcloud_file_path}")"
@@ -1907,7 +1764,16 @@ Notify(){
          LogDebug "${notification_type} ${notification_classification} notification sent successfully"
       else
          LogError "${notification_type} ${notification_classification} notification failed with http status code: ${notification_result} and curl exit code: ${curl_exit_code}"
-         LogError "***** Please report problems here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+         if [ "${notification_result}" = "000" -a "${curl_exit_code}" = "6" ]; then
+            LogError " - HTTP status code '000' and curl exit code '6' means it cannot connect to the server. Please check your network settings."
+         else
+            if [ "${debug_logging}" != true ]; then
+               LogError "Please set debug_logging=true in your icloudpd.conf file then reproduce the error."
+               LogError "***** Once you have captured this log file, please post it along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+            else
+               LogError "***** Please post the above debug log, along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+            fi
+         fi
          sleep 120
          exit 1
       fi
@@ -1980,8 +1846,8 @@ SyncUser(){
             LogDebug "Downloading new files using password stored in keyring file..."
             >/tmp/icloudpd/icloudpd_download_error
             IFS=$'\n'
-            # source /opt/icloudpd_latest/bin/activate
-            # LogDebug "Switched to icloudpd: $(/opt/icloudpd_latest/bin/icloudpd --version | awk '{print $3}')"
+            # source /opt/icloudpd/bin/activate
+            # LogDebug "Switched to icloudpd: $(/opt/icloudpd/bin/icloudpd --version | awk '{print $3}')"
             if [ "${photo_album}" ]; then
                LogDebug "Starting Photo Album download"
                DownloadAlbums
@@ -1999,7 +1865,12 @@ SyncUser(){
                LogError " - Can you log into ${icloud_domain} without receiving pop-up notifications?"
                LogError "Error debugging info:"
                LogError "$(cat /tmp/icloudpd/icloudpd_download_error)"
-               LogError "***** Please report problems here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+               if [ "${debug_logging}" != true ]; then
+                  LogError "Please set debug_logging=true in your icloudpd.conf file then reproduce the error."
+                  LogError "***** Once you have captured this log file, please post it along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+               else
+                  LogError "***** Please post the above debug log, along with a description of your problem, here: https://github.com/boredazfcuk/docker-icloudpd/issues *****"
+               fi
                if [ "${icloud_china}" = false ]; then
                   Notify "failure" "iCloudPD container failure" "1" "iCloudPD failed to download new files for Apple ID: ${apple_id}"
                else
@@ -2042,7 +1913,7 @@ SyncUser(){
       LogDebug "iCloud login counter = ${login_counter}"
       synchronisation_end_time="$(date +'%s')"
       LogInfo "Synchronisation ended at $(date +%H:%M:%S -d "@${synchronisation_end_time}")"
-      LogInfo "Total time taken: $(date +%H:%M:%S -u -d @$((synchronisation_end_time - synchronisation_start_time)))"
+      LogInfo "Total time taken: $(date +%H:%M:%S -u -d "@$((synchronisation_end_time - synchronisation_start_time))")"
       if [ "${single_pass:=false}" = true ]; then
          LogDebug "Single Pass mode set, exiting"
          exit 0
@@ -2052,7 +1923,7 @@ SyncUser(){
          unset check_exit_code check_files_count download_exit_code
          unset new_files
          if [ "${notification_type}" = "Telegram" -a "${telegram_polling}" = true ]; then
-            LogInfo "Monitoring ${notification_type} for remote wake command: ${user}"
+            LogInfo "Monitoring ${notification_type} for remote commands prefix: ${user}"
             listen_counter=0
             while [ "${listen_counter}" -lt "${sleep_time}" ]; do
                if [ "${telegram_polling}" = true ]; then
@@ -2072,7 +1943,7 @@ SyncUser(){
                   if [ "${latest_update_ids}" ]; then
                      update_count="$(echo "${latest_update_ids}" | wc --lines)"
                      LogDebug "Updates to process: ${update_count}"
-                     if [ "${update_count} -gt 0 " ]; then
+                     if [ "${update_count}" -gt 0 ]; then
                         for latest_update in ${latest_update_ids}; do
                            LogDebug "Processing update: ${latest_update}"
                            check_update="$(echo ${latest_updates} | jq ". | select(.update_id == ${latest_update}).message")"
@@ -2081,6 +1952,34 @@ SyncUser(){
                            if [ "$(echo "${check_update_text}" | tr [:upper:] [:lower:])" = "$(echo "${user}" | tr [:upper:] [:lower:])" ]; then
                               break_while=true
                               LogDebug "Remote sync message match: ${check_update_text}"
+                           elif [ "$(echo "${check_update_text}" | tr [:upper:] [:lower:])" = "$(echo "${user} auth" | tr [:upper:] [:lower:])" ]; then
+                              LogDebug "Remote authentication message match: ${check_update_text}"
+                              if [ "${icloud_china}" = false ]; then
+                                 Notify "remotesync" "iCloudPD remote synchronisation initiated" "0" "iCloudPD has detected a remote authentication request for Apple ID: ${apple_id}"
+                                 rm "${config_dir}/${cookie_file}" "${config_dir}/${cookie_file}.session"
+                                 >/tmp/icloudpd/mfacode.txt
+                                 >/tmp/icloudpd/smschoice.txt
+                                 LogDebug "Starting authentication process"
+                                 /usr/bin/expect /opt/authenticate.exp &
+                              else
+                                 Notify "remotesync" "iCloudPD remote synchronisation initiated" "0" "iCloudPD has detected a remote authentication request for Apple ID: ${apple_id}"
+                              fi
+                           elif [[ "$(echo "${check_update_text}" | tr [:upper:] [:lower:])" =~ "$(echo "${user}" | tr [:upper:] [:lower:]) [0-9][0-9][0-9][0-9][0-9][0-9]$" ]]; then
+                              LogDebug "Remote authentication MFA code received: $(echo ${check_update_text} | awk '{print $2}')"
+                              mfa_code="$(echo ${check_update_text} | awk '{print $2}')"
+                              echo "${mfa_code}" > /tmp/icloudpd/mfacode.txt
+                              sleep 2
+                              LogDebug "Using MFA code to re-authenticate"
+                              >/tmp/icloudpd/mfacode.txt
+                              unset mfa_code
+                           elif [[ "$(echo "${check_update_text}" | tr [:upper:] [:lower:])" =~ "$(echo "${user}" | tr [:upper:] [:lower:]) [0-9]$" ]]; then
+                              LogDebug "Remote SMS choice received: $(echo ${check_update_text} | awk '{print $2}')"
+                              sms_choice="$(echo ${check_update_text} | awk '{print $2}')"
+                              echo "${sms_choice}" > /tmp/icloudpd/smschoice.txt
+                              sleep 2
+                              LogDebug "MFA choice selected: ${sms_choice}"
+                              >/tmp/icloudpd/smschoice.txt
+                              unset sms_choice
                            else
                               LogDebug "Ignoring message: ${check_update_text}"
                            fi
