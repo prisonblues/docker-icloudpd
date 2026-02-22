@@ -665,6 +665,7 @@ check_keyring_exists()
       log_info "Keyring file exists, continuing"
    else
       log_error "Keyring does not exist"
+      send_notification "fail" "Keyring does not exist" "0" "Keyring does not exist"
       log_error " - Please add your password to the system keyring by using the --Initialise script command line option"
       log_error " - Syntax: docker exec -it <container name> sync-icloud.sh --Initialise"
       log_error " - Example: docker exec -it icloudpd sync-icloud.sh --Initialise"
@@ -744,6 +745,7 @@ check_multifactor_authentication_cookie()
       log_debug "Multi-factor authentication cookie exists"
    else
       log_error "Multi-factor authentication cookie does not exist"
+      send_notification "fail" "Multi-factor authentication cookie does not exist" "0" "Multi-factor authentication cookie does not exist"
       wait_for_cookie DisplayMessage
       log_debug "Multi-factor authentication cookie file exists, checking validity..."
    fi
@@ -766,6 +768,7 @@ check_multifactor_authentication_cookie()
       else
          rm -f "/config/${cookie_file}"
          log_error "Cookie expired at: ${mfa_expire_date}"
+         send_notification "fail" "Cookie expired" "0" "Cookie expired at: ${mfa_expire_date}"
          log_error "Expired cookie file has been removed. Restarting container in 5 minutes"
          sleep 300
          exit 1
@@ -810,6 +813,7 @@ display_multifactor_authentication_expiry()
          if [ "${icloud_china}" = false ]
          then
             send_notification "${cookie_status}" "Multi-factor Authentication Cookie Expiration" "2" "${error_message}"
+            send_notification "fail" "Multi-factor Authentication Cookie Expiration" "2" "${error_message}"
          else
             send_notification "${cookie_status}" "Multi-factor Authentication Cookie Expiration" "2" "${error_message}" "" "" "" "${days_remaining} 天后，${name} 的身份验证到期" "${error_message}"
          fi
@@ -1873,13 +1877,27 @@ send_notification()
          curl_exit_code="$?"
          ;;
       "webhook")
+         specific_notification_url="${notification_url}"
+         if [ "${notification_classification}" = "sync_start" ]
+         then
+            specific_notification_url="${notification_url}/start"
+         elif [ "${notification_classification}" = "fail" ]
+         then
+            specific_notification_url="${notification_url}/fail"
+         elif [ "${notification_classification}" = "sync_end" ]
+         then
+            specific_notification_url="${notification_url}"
+         else
+            log_debug "Appending /log to the notification URL"
+            specific_notification_url="${notification_url}/log"
+         fi
          webhook_payload="$(echo -e "${notification_title} - ${notification_message}")"
          if [ "${webhook_insecure}" = true ]; then
-               notification_result="$(curl --silent --insecure --output /dev/null --write-out "%{http_code}" "${notification_url}" \
+               notification_result="$(curl --silent --insecure --output /dev/null --write-out "%{http_code}" "${specific_notification_url}" \
                   --header 'content-type: application/json' \
                   --data "{ \"${webhook_body}\" : \"${webhook_payload}\" }")"
          else
-               notification_result="$(curl --silent --output /dev/null --write-out "%{http_code}" "${notification_url}" \
+               notification_result="$(curl --silent --output /dev/null --write-out "%{http_code}" "${specific_notification_url}" \
                   --header 'content-type: application/json' \
                   --data "{ \"${webhook_body}\" : \"${webhook_payload}\" }")"
          fi
@@ -2143,6 +2161,7 @@ synchronise_user()
       download_start_time="$(date +'%s')"
       download_time="$(date +%s -d '+15 minutes')"
       log_info "Download starting at $(date +%H:%M:%S -d "@${download_start_time}")"
+      send_notification "sync_start" "Synchronization Start" "0" "The synchronization process for user ${user} is starting."
       source <(grep debug_logging "${config_file}")
       chown -R "${user_id}:${group_id}" "/config"
       check_keyring_exists
@@ -2242,6 +2261,8 @@ synchronise_user()
                   remove_empty_directories
                fi
                log_info "Download complete for ${user}"
+               new_files_count="$(grep -c "Downloaded /" /tmp/icloudpd/icloudpd_sync.log 2>/dev/null || echo 0)"
+               send_notification "sync_end" "iCloudPD remote synchronisation complete" "0" "iCloudPD has completed a remote synchronisation request for Apple ID: ${apple_id}. Files downloaded: ${new_files_count}"
                if [ "${notification_type}" ] && [ "${remote_sync_complete_notification}" = true ]
                then
                   send_notification "remotesync" "iCloudPD remote download complete" "0" "iCloudPD has completed a remote download request for Apple ID: ${apple_id}"
